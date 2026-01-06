@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: centralized-logging-ingress
+  namespace: monitor
 spec:
   rules:
   - host: k8s-01.naratel.net.id
