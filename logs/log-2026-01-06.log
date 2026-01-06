@@ -1,0 +1,1 @@
+{"timestamp":"2026-01-06T02:17:17.792Z","app_name":"aplikasi-kasir-android","level":"error","message":"Gagal memproses pembayaran: Timeout koneksi bank","metadata":{"endpoint":"/api/v1/payment","method":"POST","response_time":"5000ms","stack_trace":"Error: Connection timeout at Socket.connect..."}}

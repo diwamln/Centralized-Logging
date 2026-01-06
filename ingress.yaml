@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: centralized-logging-ingress
+spec:
+  rules:
+  - host: k8s-01.naratel.net.id
+    http:
+      paths:
+      - path: /v1/
+        pathType: Prefix
+        backend:
+          service:
+            name: centralized-logging
+            port:
+              number: 80
