@@ -1,7 +1,6 @@
 const express = require('express');
 const winston = require('winston');
 const { v4: uuidv4 } = require('uuid');
-
 const app = express();
 app.use(express.json());
 
@@ -20,23 +19,21 @@ const logger = winston.createLogger({
 
 app.post('/v1/logs', (req, res) => {
   try {
-    const { app_name, message, level, env, ...extra } = req.body;
-
-    if (!app_name || !message) {
+    const logPayload = req.body;
+    
+    if (!logPayload.app_name || !logPayload.message) {
       return res.status(400).json({ error: 'app_name and message are required' });
     }
 
-    const logPayload = {
-      app_name: app_name,
-      env: env || 'production',
-      requestId: req.body.requestId || uuidv4(),
-      message: message,
-      attributes: extra || {}
-    };
+    // Tambahkan requestId jika belum ada
+    if (!logPayload.requestId) {
+      logPayload.requestId = uuidv4();
+    }
 
-    // Gunakan logger.log agar level-nya dinamis sesuai input user (info/warn/error)
-    const logServerity = level || 'info';
-    logger.log(logServerity, message, logPayload);
+    // Gunakan level dari payload atau default 'info'
+    const logSeverity = logPayload.level || 'info';
+    
+    logger.log(logSeverity, logPayload.message, logPayload);
 
     res.status(202).json({ 
       status: 'sent', 
